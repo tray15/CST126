@@ -1,0 +1,64 @@
+<head>
+	<title>Sign up for...</title>
+</head>
+<body>
+	<div>
+		<form action="pageHandler.php" method="POST">
+			<h3>Sign Up</h3><hr>
+			<label for="FirstName">First name: </label>
+			<input type="text" id="FirstName" name=FirstName required><br><br>
+			<label for="LastName">Last name: </label>
+			<input type="text" id="LastName" name="LastName" required><br><br>
+			<label for="Email">Email: </label>
+			<input type="text" id="Email" name="Email" required><br><br>
+			<input type="submit" value="Sign Up">
+		</form>
+	</div>
+</body>
+<style>
+	body {
+		background-color: #222629;
+	}
+	form {
+		background-color: #474B4F;
+		color: white;
+		font-family: Arial;
+	    text-align: right;
+		margin: 0 auto;
+	   	padding: 50px;
+	   	border-radius: 5px;
+	    display: table;
+	}
+	h3 {
+		font-family: Arial;
+		border: 2px solid #86C232;
+		background-color: #86C232;
+		text-align: left;
+		padding-left: 10px;
+		border-radius: 5px;
+	}
+	hr {
+		margin-top: 15px;
+		margin-bottom: 15px;
+		width: 100%;
+		color: white;
+	}
+	input {
+		font-family: Arial;
+		border-radius: 5px;
+	}
+	input[type=submit] {
+		background-color: #86C232;
+		color: white;
+		width: 100px;
+		height: 25px;
+		display: block;
+		margin: 0 auto;
+	}
+	div {
+		background-color: #6B6E70;
+		margin-top: 100px;
+		padding-top: 15px;
+		padding-bottom: 15px
+	}
+</style>

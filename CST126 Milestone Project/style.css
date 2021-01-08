@@ -1,0 +1,70 @@
+	head {
+		background-color: #222629;
+	}
+	body {
+		background-color: #222629;
+	}
+	form {
+		background-color: #474B4F;
+		color: white;
+		font-family: Arial;
+	    text-align: left;
+		margin: 0 auto;
+	   	padding: 100px;
+	   	border-radius: 5px;
+	    display: table;
+	}
+	a {
+		color: #86C232;
+	}
+	h2 {
+		font-family: Arial;
+		color: white;
+	}
+	h3 {
+		font-family: Arial;
+		border: 2px solid #86C232;
+		background-color: #86C232;
+		text-align: left;
+		padding-left: 10px;
+		border-radius: 5px;
+	}
+	hr {
+		margin-top: 15px;
+		margin-bottom: 15px	;
+		width: 100%;
+		color: white;
+	}
+	input {
+		font-family: Arial;
+		border-radius: 5px;
+		width: 250px;
+	}
+	input[id=BlogTitle] {
+		width: 350px;
+	}
+	input[type=submit] {
+		background-color: #86C232;
+		color: white;
+		width: 100px;
+		height: 25px;
+		display: block;
+		float: left;
+	}
+	div {
+		background-color: #6B6E70;
+		padding-top: 15px;
+		padding-bottom: 15px
+	}
+	tr, td, th {
+		font-family: Arial;
+		color: white;
+	}
+	table {
+		margin-left: auto;
+ 		margin-right: auto;
+ 		border-collapse: separate;
+	}
+	td {
+		padding-bottom: 15px;
+	}
