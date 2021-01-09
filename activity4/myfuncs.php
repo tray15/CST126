@@ -1,7 +1,7 @@
 <?php
 
 function dbConnect() {
-    $link = mysqli_connect("localhost:3307", "root", "root", "activity1");
+    $link = mysqli_connect("activity4sql.mysql.database.azure.com", "tannergcu", "p4p3rcu7!", "activity1");
     if (!$link) {
         die("ERROR: Could not connect." . mysqli_connect_error());
     }
