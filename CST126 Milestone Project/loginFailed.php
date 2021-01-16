@@ -1,7 +1,6 @@
 <link rel="stylesheet" href="style.css">
-<head>
-	<title>Login Failed</title>
-</head>
-<body>
-	<h2><?php echo $message ?></h2>
-</body>
+<?php 
+	include 'myfuncs.php';
+	$message = 'Login failed. Incorrect username or password.';
+    alert($message)
+?>

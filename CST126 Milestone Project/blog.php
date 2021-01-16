@@ -7,16 +7,36 @@
 	<a href="index.html">Home</a><br>
 	<a href="login.html">Login</a><br>
 	<a href="signUp.html">Register</a><br>
+	<?php 
+	include 'myfuncs.php';
+	$link = dbConnect();
+	
+	$query = "SELECT * FROM `users`";
+	$result = $link->query($query);
+	$data = $result->fetch_assoc();
+	
+	if ($result) {
+	    if ($data["role"] == "admin") {
+	        echo '<a href="admin.php">Admin</a>';
+	    }
+	}
+	?>
 </header>
 <body>
     <?php
-        include 'myfuncs.php';
-        
-        if(isset($_POST['BlogTitle'])) {
+        if (isset($_POST['BlogTitle'])) {
             postBlog();
         }
-    populateBlog();
-    mysqli_close($link);
+        if (isset($_GET['deleteID'])) {
+            deletePost();
+        }
+        if (isset($_GET['editID'])) {
+            editPost();
+        }
+        if (isset($_GET['flagID'])) {
+            flagPost();
+        }
+        populateBlog();
     ?>
     <div>
         <form action="blog.php" method="POST">

@@ -26,7 +26,9 @@ if ($count == 1) {
 } elseif ($count > 1) {
     alert("There are multiple users registered.");
 } elseif ($count == 0) {
-    include ('loginFailed.php');
+    $message = 'Login failed. Incorrect username or password.';
+    alert($message);
+    include 'login.html';
 } else {
     alert(mysqli_connect_error());
 }
