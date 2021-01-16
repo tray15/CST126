@@ -7,6 +7,7 @@
 	<a href="index.html">Home</a><br>
 	<a href="login.html">Login</a><br>
 	<a href="signUp.html">Register</a><br>
+	<a href="blog.html">Blog</a><br>
 	<?php 
 	include 'myfuncs.php';
 	$link = dbConnect();

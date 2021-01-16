@@ -3,8 +3,12 @@
 	<title>Login Response</title>
 </head>
 <body>
-<h2>Login was successful: <?php echo " ".$Username; ?></h2>
+<h2>Login was successful: <?php 
+    echo "".getUserId();
+    echo "<br>";
+    echo "".getUserName();
+?></h2>
 <?php 
-    header("Location: blog.php");
+    //header("Location: blog.php");
 ?>
 </body>

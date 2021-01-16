@@ -19,9 +19,10 @@ $result = mysqli_query($link, $sql);
 $count = mysqli_num_rows($result);
 
 if ($count == 1) {
+    session_start();
     $row = $result->fetch_assoc();
-    saveUserId($row["ID"]);
-    saveUsername($row["Username"]);
+    saveUserId($row["id"]);
+    saveUsername($row["username"]);
     include('loginResponse.php');
 } elseif ($count > 1) {
     alert("There are multiple users registered.");

@@ -16,6 +16,7 @@ function saveUserId($id) {
     $_SESSION["USER_ID"] = $id;
 }
 function getUserId() {
+    session_start();
     return $_SESSION["USER_ID"];
 }
 function saveUsername($Username) {
@@ -23,6 +24,7 @@ function saveUsername($Username) {
     $_SESSION["Username"] = $Username;
 }
 function getUserName() {
+    session_start();
     return $_SESSION["Username"];
 }
 function alert($message) {
@@ -54,7 +56,6 @@ function populateBlog() {
         $author = $row["author"];
         $title = $row["blogtitle"];
         $message = $row["blogmessage"];
-        $blogData = $blogResult->fetch_assoc();
         echo "<th>Title: " . $title . "</th><tr><td>Author: " . $author . "</td></tr><tr><td>" . $message . "</td></tr>";
         echo "<tr><td>";
         if ($userResult) {
@@ -65,13 +66,13 @@ function populateBlog() {
             }
             //compares username in users to author in blog to see if
             //the user is the same as author, if so, enables edit link
+            $blogData = $blogResult->fetch_assoc();
             if (strcmp($userData["username"], $blogData["author"])) {
                 echo '<a href="blog.php?editID=' . $row['post_id'] . '">Edit</a>';
                 echo ' ';
             }
             echo '<a href="blog.php?flagID=' . $row['post_id'] . '">Flag</a>';
             echo ' ';
-            echo getUserName();
             echo '<hr>';
         }
         echo "</td></tr>";
@@ -125,7 +126,8 @@ function populateAdmin() {
 function postBlog() {
     $link = dbConnect();
     
-    $author = implode('',getUserName());
+    //pull username from session
+    $author = getUserName();
     $BlogTitle = $_POST['BlogTitle'];
     $BlogMessage = $_POST['BlogMessage'];
     //checking for edit ID
@@ -153,6 +155,17 @@ function postBlog() {
         echo "ERROR: Not able to execute $sqlPost." . mysqli_error($link);
     }
     mysqli_close($link);
+}
+function editPost() {
+    $editID = $_GET['editID'];
+    $link = dbConnect();
+    $query = "SELECT * FROM `blog` WHERE `blog`.`post_id` = 'editID'";
+    $result = $link->query($query);
+    $queryTitle = "SELECT `blogtitle` FROM `blog` WHERE `blog`.`post_id` = 'editID'";
+    $resultTitle = $link->query($queryTitle);
+    $queryMessage = "SELECT `blogmessage` FROM `blog` WHERE `blog`.`post_id` = 'editID'";
+    $resultMessage = $link->query($queryMessage)->fetch_assoc();
+
 }
 function deletePost() {
     $deleteID = $_GET['deleteID'];
