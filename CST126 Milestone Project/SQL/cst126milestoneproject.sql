@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3307
--- Generation Time: Dec 20, 2020 at 07:47 PM
+-- Generation Time: Jan 17, 2021 at 06:58 PM
 -- Server version: 5.7.24
 -- PHP Version: 7.4.1
 
@@ -30,17 +30,22 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `blog` (
   `post_id` int(11) NOT NULL,
+  `author` varchar(255) NOT NULL,
   `blogtitle` varchar(255) NOT NULL,
-  `blogmessage` text NOT NULL
+  `blogmessage` text NOT NULL,
+  `flagged` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `blog`
 --
 
-INSERT INTO `blog` (`post_id`, `blogtitle`, `blogmessage`) VALUES
-(1, 'Testing', 'This is a test of the blog.'),
-(109, 'Testing the **** profanity filter', 'This is a **** test of the profanity filter. As you can see, I decided to allow a post, however it filters out the words and replaces them with, \"***\"');
+INSERT INTO `blog` (`post_id`, `author`, `blogtitle`, `blogmessage`, `flagged`) VALUES
+(142, 'admin', 'testing', 'testing testing to edit', 0),
+(162, 'admin', 'testing', 'testinggggggasdfasdfasdfasdffasd', 0),
+(186, 'admin', 'testing', 'testinggggggasdfasdfasdfasdffasd', 0),
+(188, 'admin', 'testing', 'testinggggggasdfasdfasdfasdffasd', 0),
+(189, 'admin', 'new title', 'new message', 0);
 
 -- --------------------------------------------------------
 
@@ -52,15 +57,17 @@ CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `username` varchar(16) NOT NULL,
   `email` varchar(50) NOT NULL,
-  `password` text NOT NULL
+  `password` text NOT NULL,
+  `role` varchar(100) NOT NULL DEFAULT 'standard',
+  `banned` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `email`, `password`) VALUES
-(18, 'tanner', 'test@test.com', 'tester');
+INSERT INTO `users` (`id`, `username`, `email`, `password`, `role`, `banned`) VALUES
+(18, 'admin', 'test@test.com', 'admin', 'admin', 0);
 
 --
 -- Indexes for dumped tables
@@ -86,7 +93,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `blog`
 --
 ALTER TABLE `blog`
-  MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=110;
+  MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=190;
 
 --
 -- AUTO_INCREMENT for table `users`
