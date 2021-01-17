@@ -81,7 +81,11 @@ function populateBlog() {
             //compares username in users to author in blog to see if
             //the user is the same as author, if so, renders edit link
             if (strcmp($userData['username'], $blogData['author']) == 0) {
-                echo '<a href="blog.php?editID=' . $row['post_id'] . '">Edit</a>';
+                
+                
+                echo "<form class='hiddenform' action='blog.php'>";
+                echo "<input type='hidden' hidden value='$row[post_id]'>";
+                echo "</input><a href='blog.php?editID=' . $row[post_id] . '>Edit</href></a></form>";
                 echo ' ';
             }
             echo '<a href="blog.php?flagID=' . $row['post_id'] . '">Flag</a>';
@@ -145,11 +149,15 @@ function postBlog() {
     
     $link = dbConnect();
     
+    if (isset($_GET['editID'])) {
+        $editID = $_GET['editID'];
+        echo $editID;
+    }
+    //$editID = $_GET['editID'];
+    
     //data from user fields
     $BlogTitle = $_POST['BlogTitle'];
     $BlogMessage = $_POST['BlogMessage'];
-    
-    $editID = $_GET['editID'];
     
     // Verify that blog title or message is not empty
     if (is_null($BlogTitle) || empty($BlogTitle)) {

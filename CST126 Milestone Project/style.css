@@ -8,11 +8,7 @@
 		background-color: #474B4F;
 		color: white;
 		font-family: Arial;
-	    text-align: left;
-		margin: 0 auto;
-	   	padding: 100px;
-	   	border-radius: 5px;
-	    display: table;
+
 	}
 	a {
 		color: #86C232;
@@ -39,6 +35,11 @@
 		font-family: Arial;
 		border-radius: 5px;
 		width: 250px;
+	}
+	input[type=hidden] {
+		font-family: Arial;
+		border-radius: 0px;
+		width: 0px;
 	}
 	input[id=BlogTitle] {
 		width: 350px;
