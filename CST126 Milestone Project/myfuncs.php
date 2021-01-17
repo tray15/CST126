@@ -36,6 +36,19 @@ function profanityFilter($text) {
     $filtered_text = preg_replace($filter_terms, '****', $text);
     return $filtered_text;
 }
+function adminControl() {
+    $link = dbConnect();
+    
+    $query = "SELECT * FROM `users`";
+    $result = $link->query($query);
+    $data = $result->fetch_assoc();
+    
+    if ($result) {
+        if ($data["role"] == "admin") {
+            echo '<a href="admin.php">Admin</a>';
+        }
+    }
+}
 function populateBlog() {
     $link = dbConnect();
     
@@ -46,6 +59,7 @@ function populateBlog() {
     //read posts from database
     $blogQuery = "SELECT * FROM `blog`";
     $blogResult = $link->query($blogQuery);
+    $blogData = $blogResult->fetch_assoc();
     
     echo "<div>";
     echo "<form>";
@@ -65,9 +79,8 @@ function populateBlog() {
                 echo ' ';
             }
             //compares username in users to author in blog to see if
-            //the user is the same as author, if so, enables edit link
-            $blogData = $blogResult->fetch_assoc();
-            if (strcmp($userData["username"], $blogData["author"])) {
+            //the user is the same as author, if so, renders edit link
+            if (strcmp($userData['username'], $blogData['author']) == 0) {
                 echo '<a href="blog.php?editID=' . $row['post_id'] . '">Edit</a>';
                 echo ' ';
             }
@@ -99,7 +112,8 @@ function populateAdmin() {
     echo "<h3>Flagged Posts</h3>";
     echo "<table>";
     //populate flagged blog posts
-    while ($row = mysqli_fetch_assoc($result)) {
+    while ($row = mysqli_fetch_assoc(
+        $result)) {
         $author = $row["author"];
         $title = $row["blogtitle"];
         $message = $row["blogmessage"];
@@ -128,11 +142,14 @@ function postBlog() {
     
     //pull username from session
     $author = getUserName();
+    
+    $link = dbConnect();
+    
+    //data from user fields
     $BlogTitle = $_POST['BlogTitle'];
     $BlogMessage = $_POST['BlogMessage'];
-    //checking for edit ID
+    
     $editID = $_GET['editID'];
-    $editQuery = "SELECT * FROM `blog` WHERE `post_id`='$editID'";
     
     // Verify that blog title or message is not empty
     if (is_null($BlogTitle) || empty($BlogTitle)) {
@@ -143,35 +160,32 @@ function postBlog() {
         return;
     }
     
-    //Filter the message and title of profanity with profanity filter function
+    //Filter the message and title of profanity
     $filteredTitle = profanityFilter($BlogTitle);
     $filteredMessage = profanityFilter($BlogMessage);
     
+    //queries
     $sqlPost = "INSERT INTO `blog` (author, blogtitle, blogmessage) VALUES('$author', '$filteredTitle', '$filteredMessage')";
+    $updateQuery = "UPDATE `blog` SET `blogtitle'='$filteredTitle', `blogmessage`='$filteredMessage' WHERE `post_id`='$editID'";
+    $editQuery = "SELECT * FROM `blog` WHERE `post_id`='$editID'";
     
-    if (mysqli_query($link, $sqlPost)) {
+    $editResult = $link->query($editQuery);
+    
+    if ($editResult->num_rows > 0) {
+        alert("not implemented");
+    } elseif ($editResult->num_rows == 0) {
+        $link->query($sqlPost);
         alert("Successfully uploaded message.");
     } else {
-        echo "ERROR: Not able to execute $sqlPost." . mysqli_error($link);
+        alert("ERROR: Not able to execute $sqlPost." . mysqli_error($link));
     }
     mysqli_close($link);
-}
-function editPost() {
-    $editID = $_GET['editID'];
-    $link = dbConnect();
-    $query = "SELECT * FROM `blog` WHERE `blog`.`post_id` = 'editID'";
-    $result = $link->query($query);
-    $queryTitle = "SELECT `blogtitle` FROM `blog` WHERE `blog`.`post_id` = 'editID'";
-    $resultTitle = $link->query($queryTitle);
-    $queryMessage = "SELECT `blogmessage` FROM `blog` WHERE `blog`.`post_id` = 'editID'";
-    $resultMessage = $link->query($queryMessage)->fetch_assoc();
-
 }
 function deletePost() {
     $deleteID = $_GET['deleteID'];
     $link = dbConnect();
     $delQuery = "DELETE FROM `blog` WHERE `post_id`='$deleteID'";
-    if ($link->query($delQuery) == true) {
+    if ($link->query($delQuery)) {
         $message = "Record successfully deleted.";
         alert($message);
     }
@@ -180,7 +194,7 @@ function flagPost() {
     $flagID = $_GET['flagID'];
     $link = dbConnect();
     $flagQuery = "UPDATE `blog` SET `flagged` = '1' WHERE `blog`.`post_id` = '$flagID'";
-    if ($link->query($flagQuery) == true) {
+    if ($link->query($flagQuery)) {
         $message = "Post has been flagged for admins.";
         alert($message);
     }
@@ -190,7 +204,7 @@ function unflagPost() {
     $flagID = $_GET['flagID'];
     $link = dbConnect();
     $unflagQuery = "UPDATE `blog` SET `flagged` = '0' WHERE `blog`.`post_id` = '$flagID'";
-    if ($link->query($unflagQuery) == true) {
+    if ($link->query($unflagQuery)) {
         $message = "Post has been approved.";
         alert($message);
     }

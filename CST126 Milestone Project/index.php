@@ -8,18 +8,8 @@
 	<a href="signUp.html">Register</a><br>
 	<a href="blog.php">Blog</a><br>
 	<?php 
-	include 'myfuncs.php';
-	$link = dbConnect();
-	
-	$query = "SELECT * FROM `users`";
-	$result = $link->query($query);
-	$data = $result->fetch_assoc();
-	
-	if ($result) {
-	    if ($data["role"] == "admin") {
-	        echo '<a href="admin.php">Admin</a>';
-	    }
-	}
+	   include 'myfuncs.php';
+	   adminControl();
 	?>
 </header>
 <body>

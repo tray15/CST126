@@ -8,18 +8,8 @@
 	<a href="login.html">Login</a><br>
 	<a href="signUp.html">Register</a><br>
 	<?php 
-	include 'myfuncs.php';
-	$link = dbConnect();
-	
-	$query = "SELECT * FROM `users`";
-	$result = $link->query($query);
-	$data = $result->fetch_assoc();
-	
-	if ($result) {
-	    if ($data["role"] == "admin") {
-	        echo '<a href="admin.php">Admin</a>';
-	    }
-	}
+	   include 'myfuncs.php';
+	   adminControl();
 	?>
 </header>
 <body>
@@ -31,7 +21,19 @@
             deletePost();
         }
         if (isset($_GET['editID'])) {
-            editPost();
+            $editID = $_GET['editID'];
+            $link = dbConnect();
+            
+            //retrieve title data
+            $titleQuery = "SELECT `blogtitle` FROM `blog` WHERE `post_id`='$editID'";
+            $titleResult = $link->query($titleQuery);
+            $titleData = $titleResult->fetch_assoc();
+            
+            //retrieve message data
+            $messageQuery = "SELECT `blogmessage` FROM `blog` WHERE `post_id`='$editID'";
+            $messageResult = $link->query($messageQuery);
+            $messageData = $messageResult->fetch_assoc();
+            mysqli_close($link);
         }
         if (isset($_GET['flagID'])) {
             flagPost();
@@ -42,9 +44,9 @@
         <form action="blog.php" method="POST">
             <h3>Add post</h3><hr>
             <label for="BlogTitle">Title:<br></label>
-            <input type="text" id="BlogTitle" name="BlogTitle" required><br><br>
+            <input type="text" id="BlogTitle" name="BlogTitle" value="<?php echo implode('',$titleData); ?>" required><br><br>
             <label for=BlogMessage>Message:<br></label>
-            <textarea id="BlogMessage" name="BlogMessage" rows="10" cols="48"></textarea><br><br>
+            <textarea id="BlogMessage" name="BlogMessage" rows="10" cols="48"><?php echo implode('',$messageData); ?></textarea><br><br>
             <input type="submit" value="submit"><br>
         </form>
     </div>
