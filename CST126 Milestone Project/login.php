@@ -16,9 +16,13 @@ if (is_null($Username) || empty($Username)) {
 
 $sql = "SELECT * FROM `users` WHERE `USERNAME`='$Username' AND `PASSWORD`='$Password'";
 $result = mysqli_query($link, $sql);
+$data = $result->fetch_assoc();
 $count = mysqli_num_rows($result);
 
-if ($count == 1) {
+
+//verify that username and password combination exists
+//also verifies that user is not banned!
+if ($count == 1 && $data['banned'] != 1) {
     session_start();
     $row = $result->fetch_assoc();
     saveUserId($row["id"]);
@@ -30,6 +34,9 @@ if ($count == 1) {
     $message = 'Login failed. Incorrect username or password.';
     alert($message);
     include 'login.html';
+} elseif ($result['banned'] == 1) {
+    $message = 'User was banned. Cannot login.';
+    alert($message);
 } else {
     alert(mysqli_connect_error());
 }

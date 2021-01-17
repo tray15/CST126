@@ -18,6 +18,15 @@
     if (isset($_GET['flagID'])) {
         unflagPost();
     }
+    if (isset($_GET['promoteID'])) {
+        promote();
+    }
+    if (isset($_GET['demoteID'])) {
+        demote();
+    }
+    if (isset($_GET['banID'])) {
+        banUser();
+    }
         populateAdmin();
     ?>
 </body>

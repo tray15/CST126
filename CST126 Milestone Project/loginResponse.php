@@ -9,6 +9,6 @@
     echo "".getUserName();
 ?></h2>
 <?php 
-    //header("Location: blog.php");
+    header("Location: blog.php");
 ?>
 </body>

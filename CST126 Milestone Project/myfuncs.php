@@ -95,6 +95,7 @@ function populateBlog() {
     echo "</div>";
     mysqli_close($link);
 }
+//populates admin page with flagged posts and users
 function populateAdmin() {
     $link = dbConnect();
     
@@ -112,8 +113,7 @@ function populateAdmin() {
     echo "<h3>Flagged Posts</h3>";
     echo "<table>";
     //populate flagged blog posts
-    while ($row = mysqli_fetch_assoc(
-        $result)) {
+    while ($row = mysqli_fetch_assoc($result)) {
         $author = $row["author"];
         $title = $row["blogtitle"];
         $message = $row["blogmessage"];
@@ -123,6 +123,7 @@ function populateAdmin() {
             //check if user has admin priviledges
             if ($roleData["role"] == "admin") {
                 echo '<a href="admin.php?deleteID=' . $row['post_id'] . '">Delete</a>';
+                echo ' ';
                 echo '<a href="admin.php?flagID=' . $row['post_id'] . '">Unflag</a>';
             }
         }
@@ -135,6 +136,37 @@ function populateAdmin() {
     echo "</table>";
     echo "</form>";
     echo "</div>";
+    
+    
+    $userQuery = "SELECT * FROM `users`";
+    $userResult = $link->query($userQuery);
+    //populate users and add role controls
+    echo "<div>";
+    echo "<form>";
+    echo "<h3>Users</h3>";
+    echo "<table>";
+    while ($row = mysqli_fetch_assoc($userResult)) {
+            $user = $row["username"];
+            $role = $row["role"];
+            echo "<th>User: " . $user . "</th><tr><td>Role: " . $role . "</td></tr>";
+            echo "<tr><td>";
+            if ($roleResult) {
+                //check if user has admin priviledges
+                if ($roleData["role"] == "admin") {
+                    echo '<a href="admin.php?promoteID=' . $row['id'] . '">Promote</a>';
+                    echo ' ';
+                    echo '<a href="admin.php?demoteID=' . $row['id'] . '">Demote</a>';
+                    echo ' ';
+                    echo '<a href="admin.php?banID=' . $row['id'] . '">Ban</a>';
+                    echo ' ';
+                    echo '<a href="admin.php?unbanID=' . $row['id'] . '">Unban</a>';
+                }
+            }
+            echo "</td></tr>";
+        }
+        echo "</table>";
+        echo "</form>";
+        echo "</div>";
     mysqli_close($link);
 }
 function postBlog() {
@@ -200,12 +232,56 @@ function flagPost() {
     }
     mysqli_close($link);
 }
+//admin control
 function unflagPost() {
     $flagID = $_GET['flagID'];
     $link = dbConnect();
     $unflagQuery = "UPDATE `blog` SET `flagged` = '0' WHERE `blog`.`post_id` = '$flagID'";
     if ($link->query($unflagQuery)) {
         $message = "Post has been approved.";
+        alert($message);
+    }
+    mysqli_close($link);
+}
+//admin control
+function promote() {
+    $promote = $_GET['promoteID'];
+    $link = dbConnect();
+    $promoteQuery = "UPDATE `users` SET `role` = 'admin' WHERE `users`.`id` = '$promote'";
+    if ($link->query($promoteQuery)) {
+        $message = "User has been promoted to admin.";
+        alert($message);
+    }
+    mysqli_close($link);
+}
+//admin control
+function demote() {
+    $demote = $_GET['demoteID'];
+    $link = dbConnect();
+    $demoteQuery = "UPDATE `users` SET `role` = 'standard' WHERE `users`.`id` = '$demote'";
+    if ($link->query($demoteQuery)) {
+        $message = "User has been demoted to a standard user.";
+        alert($message);
+    }
+    mysqli_close($link);
+}
+//admin control
+function banUser() {
+    $ban = $_GET['banID'];
+    $link = dbConnect();
+    $banQuery = "UPDATE `users` SET `banned` = '1' WHERE `users`.`id` = '$ban'";
+    if ($link->query($banQuery)) {
+        $message = "User has been banned.";
+        alert($message);
+    }
+    mysqli_close($link);
+}
+function unbanUser() {
+    $unban = $_GET['unbanID'];
+    $link = dbConnect();
+    $unbanQuery = "UPDATE `users` SET `banned` = '0' WHERE `users`.`id` = '$unban'";
+    if ($link->query($unbanQuery)) {
+        $message = "User has been banned.";
         alert($message);
     }
     mysqli_close($link);
