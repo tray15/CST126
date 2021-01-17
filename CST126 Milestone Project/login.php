@@ -34,7 +34,7 @@ if ($count == 1 && $data['banned'] != 1) {
     $message = 'Login failed. Incorrect username or password.';
     alert($message);
     include 'login.html';
-} elseif ($result['banned'] == 1) {
+} elseif ($data['banned'] == 1) {
     $message = 'User was banned. Cannot login.';
     alert($message);
 } else {

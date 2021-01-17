@@ -3,5 +3,5 @@
 	<title>Registration Response</title>
 </head>
 <body>
-	<h2>Registration was successful: <?php echo " ".$Username ?></h2>
+	<h2><?php alert("Registration was successful! Redirecting to sign in page."); header("Location: login.html"); ?></h2>
 </body>
