@@ -13,11 +13,11 @@ function dbConnect() {
 
 function saveUserId($id) {
     session_start();
-    $_SESSION["USER_ID"] = $id;
+    $_SESSION["id"] = $id;
 }
 function getUserId() {
     session_start();
-    return $_SESSION["USER_ID"];
+    return $_SESSION["id"];
 }
 function saveUsername($Username) {
     session_start();
@@ -66,7 +66,7 @@ function populateBlog() {
     
     echo "</div><form>";
     echo "<h3>Recent Posts</h3>";
-    if ($result->num_rows === 0) {
+    if ($blogResult->num_rows == 0) {
         echo "There are no blog posts.";
     }
     echo "</form></div>";
@@ -78,8 +78,14 @@ function populateBlog() {
         $author = $row["author"];
         $title = $row["blogtitle"];
         $message = $row["blogmessage"];
-        echo "<th>Title: " . $title . "</th><tr></tr><tr><td>Author: " . $author . "</td></tr><tr><td>" . $message . "</td></tr>";
+        $rating = $row["votes"];
+        echo "<th>Title: " . $title . "</th><tr><td>Rating: " . $rating . "</td></tr><tr><td>Author: " . $author . "</td></tr><tr><td>" . $message . "</td></tr>";
         echo "<tr><td>";
+        echo "<tr><td>";
+        echo '<a href="blog.php?upvoteID=' . $row['post_id'] . '">Upvote</a>';
+        echo ' ';
+        echo '<a href="blog.php?downvoteID=' . $row['post_id'] . '">Downvote</a>';
+        echo ' ';
         if ($userResult) {
             //check if user has admin priviledges
             if ($userData["role"] == "admin") {
@@ -129,7 +135,8 @@ function populateAdmin() {
         $author = $row["author"];
         $title = $row["blogtitle"];
         $message = $row["blogmessage"];
-        echo "<th>Title: " . $title . "</th><tr><td>Author: " . $author . "</td></tr><tr><td>" . $message . "</td></tr>";
+        $rating = $row["votes"];
+        echo "<th>Title: " . $title . "</th><tr><td>Rating: " . $rating . "</td></tr><tr><td>Author: " . $author . "</td></tr><tr><td>" . $message . "</td></tr>";
         echo "<tr><td>";
         if ($roleResult) {
             //check if user has admin priviledges
@@ -240,6 +247,46 @@ function flagPost() {
         alert($message);
     }
     mysqli_close($link);
+}
+function upvote() {
+    $upvote = $_GET['upvoteID'];
+    
+    $link = dbConnect();
+    $userid = getUserId();
+    $sql = "SELECT * FROM rating WHERE user_id='$userid' AND post_id='$upvote'";
+    $result = $link->query($sql);
+    //see if user has an existing vote on the post we are trying to upvote or downvote
+    //if returns a number greater than 0 user has already voted.
+    if ($result->num_rows > 0) {
+         alert("You have already voted.");
+    } else {
+        //cast a vote!
+        $upvoteQuery = "UPDATE blog SET votes = votes+1 WHERE post_id='$upvote'";
+        $upvoteResult = $link->query($upvoteQuery);
+        //update ratings table tos how that a user has voted!
+        $link->query("INSERT INTO rating (post_id, user_id) VALUES ($upvote, $userid)");
+    } 
+    $link->close();
+}
+function downvote() {
+    $downvote = $_GET['downvoteID'];
+    
+    $link = dbConnect();
+    $userid = getUserId();
+    $sql = "SELECT * FROM rating WHERE user_id='$userid' AND post_id='$downvote'";
+    $result = $link->query($sql);
+    //see if user has an existing vote on the post we are trying to upvote or downvote
+    //if returns a number greater than 0 user has already voted.
+    if ($result->num_rows > 0) {
+        alert("You have already voted.");
+    } else {
+        //cast a vote!
+        $downvoteQuery = "UPDATE blog SET votes = votes-1 WHERE post_id='$downvote'";
+        $downvoteResult = $link->query($downvoteQuery);
+        //update ratings table to show that a user has voted!
+        $insert = "INSERT INTO rating (user_id, post_id) VALUES ($userid, $downvote)";
+        $link->query($insert);
+    }
 }
 //admin control
 function unflagPost() {

@@ -61,6 +61,10 @@
             flagPost();
             //met none of the requirements of previous checks. This means this is a new post and
             //we are adding it to the database
+        } elseif (isset($_GET['upvoteID'])) {
+            upvote();
+        } elseif (isset($_GET['downvoteID'])) {
+            downvote();
         } elseif (isset($_POST['BlogTitle'])) {
             postBlog();
         }

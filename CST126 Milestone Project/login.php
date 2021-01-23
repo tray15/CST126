@@ -25,7 +25,7 @@ $count = mysqli_num_rows($result);
 if ($count == 1 && $data['banned'] != 1) {
     session_start();
     $row = $result->fetch_assoc();
-    saveUserId($row["id"]);
+    saveUserId($row["user_id"]);
     saveUsername($row["username"]);
     include('loginResponse.php');
 } elseif ($count > 1) {
