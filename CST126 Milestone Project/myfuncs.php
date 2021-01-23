@@ -27,16 +27,19 @@ function getUserName() {
     session_start();
     return $_SESSION["Username"];
 }
+//sends alert box with customized message to notify of any changes.
 function alert($message) {
     echo "<script>alert('$message');</script>";
 }
 function profanityFilter($text) {
     //uses regex to filter based off of list of words added to it, returns filtered text.
+    //not many terms added, but things can be added as it goes.
     $filter_terms = array('/\bass(es|holes?)?\b/i', '/\bshit(ting|e|ty|head|ter?)?\b/i', '/\bfuck(er|ed|ing|head?)?\b/i');
     $filtered_text = preg_replace($filter_terms, '****', $text);
     return $filtered_text;
 }
 function adminControl() {
+    //render admin control panel navigation if user is admin
     $link = dbConnect();
     
     $query = "SELECT * FROM `users`";
@@ -50,6 +53,7 @@ function adminControl() {
     }
 }
 function populateBlog() {
+    //render the blog and controls based on user role
     $link = dbConnect();
     
     $userQuery = "SELECT * FROM `users`";
@@ -59,18 +63,22 @@ function populateBlog() {
     //read posts from database
     $blogQuery = "SELECT * FROM `blog`";
     $blogResult = $link->query($blogQuery);
-    $blogData = $blogResult->fetch_assoc();
     
-    echo "<div>";
-    echo "<form>";
+    echo "</div><form>";
     echo "<h3>Recent Posts</h3>";
-    echo "<table>";
+    if ($result->num_rows === 0) {
+        echo "There are no blog posts.";
+    }
+    echo "</form></div>";
     //populate blog posts
     while ($row = $blogResult->fetch_assoc()) {
+        echo '<div id="post-' . $row['post_id'] . '">';
+        echo "<form>";
+        echo "<table>";
         $author = $row["author"];
         $title = $row["blogtitle"];
         $message = $row["blogmessage"];
-        echo "<th>Title: " . $title . "</th><tr><td>Author: " . $author . "</td></tr><tr><td>" . $message . "</td></tr>";
+        echo "<th>Title: " . $title . "</th><tr></tr><tr><td>Author: " . $author . "</td></tr><tr><td>" . $message . "</td></tr>";
         echo "<tr><td>";
         if ($userResult) {
             //check if user has admin priviledges
@@ -80,19 +88,19 @@ function populateBlog() {
             }
             //compares username in users to author in blog to see if
             //the user is the same as author, if so, renders edit link
-            if (strcmp($userData['username'], $blogData['author']) == 0) {
+            if (strcmp($userData['username'], $row['author']) == 0) {
                 echo '<a href="blog.php?editID=' . $row['post_id'] . '">Edit</a>';
                 echo ' ';
             }
             echo '<a href="blog.php?flagID=' . $row['post_id'] . '">Flag</a>';
             echo ' ';
-            echo '<hr>';
         }
         echo "</td></tr>";
+        echo "</table>";
+        echo "</form>";
+        echo "</div>";
+        //while loop to populate comments
     }
-    echo "</table>";
-    echo "</form>";
-    echo "</div>";
     mysqli_close($link);
 }
 //populates admin page with flagged posts and users
@@ -107,13 +115,17 @@ function populateAdmin() {
     //it will be empty
     $blogQuery = "SELECT * FROM `blog` WHERE `flagged`='1'";
     $result = mysqli_query($link, $blogQuery);
-    
-    echo "<div>";
-    echo "<form>";
+    echo "</div><form>";
     echo "<h3>Flagged Posts</h3>";
-    echo "<table>";
+    if ($result->num_rows == 0) {
+        echo "There are no flagged posts.";
+    }
+    echo "</form></div>";
     //populate flagged blog posts
     while ($row = mysqli_fetch_assoc($result)) {
+        echo "<div>";
+        echo "<form>";
+        echo "<table>";
         $author = $row["author"];
         $title = $row["blogtitle"];
         $message = $row["blogmessage"];
@@ -129,10 +141,7 @@ function populateAdmin() {
         }
         echo "</td></tr>";
     }
-    //if there are no flagged posts, notify admin of no posts
-    if (mysqli_fetch_assoc($result) == 0) {
-        echo 'There are no flagged posts.';
-    }
+    
     echo "</table>";
     echo "</form>";
     echo "</div>";
@@ -276,6 +285,7 @@ function banUser() {
     }
     mysqli_close($link);
 }
+//admin control
 function unbanUser() {
     $unban = $_GET['unbanID'];
     $link = dbConnect();

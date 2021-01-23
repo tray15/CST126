@@ -8,8 +8,9 @@
 	<a href="login.html">Login</a><br>
 	<a href="signUp.html">Register</a><br>
 	<a href="blog.php">Blog</a><br>
+	<a href="search.php">Search</a><br>
 	<?php 
-	include 'myfuncs.php';
+	   include 'myfuncs.php';
 	   adminControl();
 	?>
 </header>

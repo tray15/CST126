@@ -4,9 +4,11 @@
 </head>
 <header>
 	<h2>My Milestone Project</h2>
+	<a href="index.html">Home</a><br>
 	<a href="login.html">Login</a><br>
 	<a href="signUp.html">Register</a><br>
 	<a href="blog.php">Blog</a><br>
+	<a href="search.php">Search</a><br>
 	<?php 
 	   include 'myfuncs.php';
 	   adminControl();
@@ -14,7 +16,7 @@
 </header>
 <body>
 	<div>
-		<form action="signUp.php" method="POST">
+		<form id="Menus" action="signUp.php" method="POST">
 			<h3>Sign Up</h3><hr>
 			<label for="Username">Username:<br></label>
 			<input type="text" id="Username" name="Username" maxlength="16" required><br><br>
