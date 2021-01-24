@@ -18,15 +18,18 @@
     <?php
     if (isset($_GET['flagID'])) {
         unflagPost();
-    }
-    if (isset($_GET['promoteID'])) {
+    } elseif (isset($_GET['promoteID'])) {
         promote();
-    }
-    if (isset($_GET['demoteID'])) {
+    } elseif (isset($_GET['demoteID'])) {
         demote();
-    }
-    if (isset($_GET['banID'])) {
+    } elseif (isset($_GET['banID'])) {
         banUser();
+    } elseif (isset($_GET['deleteID'])) {
+        deletePost();
+    } elseif (isset($_GET['deleteCommentID'])) {
+        deleteComment();
+    } elseif (isset($_GET['unflagCommentID'])) {
+        unflagComment();
     }
         populateAdmin();
     ?>
