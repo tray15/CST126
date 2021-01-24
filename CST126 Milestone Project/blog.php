@@ -54,10 +54,61 @@
                 $updateQuery = "UPDATE `blog` SET `blogtitle`='$blogTitle', `blogmessage`='$blogMessage' WHERE `post_id`='$editID'";
                 $updateResult = $link->query($updateQuery);
                 alert("Post has been updated!");
-                mysqli_close($link);
+                $link->close();
             }
-            //check for flag post click, get ID from URL. Correlates to `post_id` in database
+        } elseif (isset($_GET['commentID'])) {
+            $commentID = $_GET['commentID'];
+            if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                echo '<div class="comment-container">';
+                echo '<form method="POST" action="blog.php"'; if ($commentID != 0) echo '?commentID=' . $commentID . '>';
+                echo '<textarea id="CommentMessage" name="CommentMessage"></textarea>';
+                echo '<input type="submit"></input>';
+                echo '</form>';
+                echo '</div>';
+            } elseif($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $link = dbConnect();
+                //pull username from session
+                $user = getUserName();
+                $link = dbConnect();
+                $commentID = $_GET['commentID'];
+                //data from user fields
+                $comMsg = $_POST['CommentMessage'];
+                // Verify that blog title or message is not empty {
+                if (is_null($comMsg) || empty($comMsg)) {
+                    alert("Please enter a message.");
+                    return;
+                }
+                //Filter the message and title of profanity
+                $filterMsg = profanityFilter($comMsg);
+                
+                //queries
+                $sqlCom = "INSERT INTO `comments` (username, post_id, message) VALUES ('$user', '$commentID', '$filterMsg')";
+                $link->query($sqlCom);
+                $link->close();
+            }
+        } elseif (isset($_POST['CommentMessage'])) {
+            $link = dbConnect();
+            
+            //pull username from session
+            $user = getUserName();
+            
+            $link = dbConnect();            
+            //data from user fields
+            $comMsg = $_POST['CommentMessage'];
+            
+            // Verify that blog title or message is not empty {
+            if (is_null($comMsg) || empty($comMsg)) {
+                alert("Please enter a message.");
+                return;
+            }
+            //Filter the message and title of profanity
+            $filterMsg = profanityFilter($comMsg);
+            //queries
+            $sqlCom = "INSERT INTO `comments` (username, post_id, message) VALUES ('$user', '$commentID', '$comMsg')";
+            $link->query($sqlCom);
+            $link->close();
         } elseif (isset($_GET['flagID'])) {
+            //check for flag post click, get ID from URL. Correlates to `post_id` in database
             flagPost();
             //met none of the requirements of previous checks. This means this is a new post and
             //we are adding it to the database
@@ -75,9 +126,9 @@
         <form id ="Blog" action="blog.php<?php if ($editID != 0) echo '?editID='.$editID; ?>" method="POST">
             <h3>Add post</h3><hr>
             <label for="BlogTitle">Title:<br></label>
-            <input type="text" id="BlogTitle" name="BlogTitle" value="<?php if ($titleData != null) { echo implode('',$titleData); } ?>" required><br><br>
+            <input type="text" id="BlogTitle" name="BlogTitle" value="<?php if ($titleData != null) { echo implode('',$titleData); } ?>"><br><br>
             <label for=BlogMessage>Message:<br></label>
-            <textarea id="BlogMessage" name="BlogMessage" rows="10" cols="48"><?php if ($messageData != null) { echo implode('',$messageData); } ?></textarea><br><br>
+            <textarea id="BlogMessage" name="BlogMessage"><?php if ($messageData != null) { echo implode('',$messageData); } ?></textarea><br><br>
             <input type="submit" value="Submit"><br>
         </form>
     </div>

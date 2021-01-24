@@ -19,7 +19,7 @@
 		background-color: #474B4F;
 		color: white;
 		font-family: Arial;
-		text-align: center;
+		text-align: left;
 		margin: 0 auto;
 	   	padding: 20px;
 	   	border-radius: 5px;
@@ -35,6 +35,17 @@
 	   	padding: 20px;
 	   	border-radius: 5px;
 	   	width: 25%;
+		display: table;
+	}
+	#Comments {
+		background-color: #474B4F;
+		color: white;
+		font-family: Arial;
+		text-align: left;
+		margin-left: 19.3%;
+	   	padding: 20px;
+	   	border-radius: 5px;
+	   	width: 70%;
 		display: table;
 	}
 	a {
@@ -77,7 +88,15 @@
 		width: 100px;
 		height: 25px;
 		display: block;
-		float: left;
+		float: center;
+	}
+	button {
+		background-color: #86C232;
+		color: white;
+		width: 150px;
+		height: 25px;
+		display: block;
+		float: center;
 	}
 	div {
 		background-color: #6B6E70;
@@ -97,4 +116,12 @@
 	}
 	td {
 		padding-bottom: 15px;
+	}
+	textarea {
+	  max-height: 300px;
+	  min-height: 150px;
+	  max-width: 500px;
+	  min-width: 350px;
+	  display:inline-block;
+	  vertical-align: top;
 	}

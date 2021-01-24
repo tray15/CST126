@@ -21,11 +21,11 @@ function getUserId() {
 }
 function saveUsername($Username) {
     session_start();
-    $_SESSION["Username"] = $Username;
+    $_SESSION["username"] = $Username;
 }
 function getUserName() {
     session_start();
-    return $_SESSION["Username"];
+    return $_SESSION["username"];
 }
 //sends alert box with customized message to notify of any changes.
 function alert($message) {
@@ -53,7 +53,7 @@ function adminControl() {
     }
 }
 function populateBlog() {
-    //render the blog and controls based on user role
+    //render the blog and control based on user role
     $link = dbConnect();
     
     $userQuery = "SELECT * FROM `users`";
@@ -86,6 +86,8 @@ function populateBlog() {
         echo ' ';
         echo '<a href="blog.php?downvoteID=' . $row['post_id'] . '">Downvote</a>';
         echo ' ';
+        echo '<a href="?commentID=' .$row['post_id'] . '">Comment</a>';
+        echo ' ';
         if ($userResult) {
             //check if user has admin priviledges
             if ($userData["role"] == "admin") {
@@ -105,7 +107,17 @@ function populateBlog() {
         echo "</table>";
         echo "</form>";
         echo "</div>";
-        //while loop to populate comments
+        
+        $commentQuery = 'SELECT * FROM comments WHERE post_id=' . $row['post_id'] . '';
+        $commentResult = $link->query($commentQuery);
+        
+        while ($comRow = $commentResult->fetch_assoc()) {
+            echo "<div><form id='Comments'><table>";
+            $user = $comRow['username'];
+            $com = $comRow['comment'];
+            echo "<tr><td>User: $user</td></tr><tr><td>Comment: $com</td></tr>";
+            echo "</table></form></div>";
+        }
     }
     mysqli_close($link);
 }
@@ -199,12 +211,12 @@ function postBlog() {
     $BlogTitle = $_POST['BlogTitle'];
     $BlogMessage = $_POST['BlogMessage'];
     
-    // Verify that blog title or message is not empty
+    // Verify that blog title or message is not empty {
     if (is_null($BlogTitle) || empty($BlogTitle)) {
-        echo "Please enter a title.";
+        alert("Please enter a title.");
         return;
     } elseif (is_null($BlogMessage) || empty($BlogMessage)) {
-        echo "Please write a message.";
+        alert("Please write a message.");
         return;
     }
     

@@ -24,9 +24,8 @@ $count = mysqli_num_rows($result);
 //also verifies that user is not banned!
 if ($count == 1 && $data['banned'] != 1) {
     session_start();
-    $row = $result->fetch_assoc();
-    saveUserId($row["user_id"]);
-    saveUsername($row["username"]);
+    saveUserId($data["id"]);
+    saveUsername($data["username"]);
     include('loginResponse.php');
 } elseif ($count > 1) {
     alert("There are multiple users registered.");
