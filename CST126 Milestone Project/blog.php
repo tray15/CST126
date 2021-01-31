@@ -11,6 +11,7 @@
 	<a href="search.php">Search</a><br>
 	<?php 
 	   include 'myfuncs.php';
+	   logout();
 	   adminControl();
 	?>
 </header>

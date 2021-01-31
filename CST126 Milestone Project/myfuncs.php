@@ -27,6 +27,16 @@ function getUserName() {
     session_start();
     return $_SESSION["username"];
 }
+function logout() {
+    echo '<a href="login.html?logout">Logout</a>';
+    
+    if (isset($_GET['logout'])) {
+        session_start();
+        session_destroy();
+        alert("You have been logged out. Redirecting to login page.");
+        header('Location: login.html');
+    }
+}
 //sends alert box with customized message to notify of any changes.
 function alert($message) {
     echo "<script>alert('$message');</script>";
@@ -250,9 +260,13 @@ function postBlog() {
         return;
     }
     
+    //add extra apostrophe to make sure it's added into the SQL!
+    $aposTitle = str_replace("'", "''", $BlogTitle);
+    $aposMessage = str_replace("'", "''", $BlogMessage);
+    
     //Filter the message and title of profanity
-    $filteredTitle = profanityFilter($BlogTitle);
-    $filteredMessage = profanityFilter($BlogMessage);
+    $filteredTitle = profanityFilter($aposTitle);
+    $filteredMessage = profanityFilter($aposMessage);
     
     //queries
     $sqlPost = "INSERT INTO `blog` (author, blogtitle, blogmessage) VALUES('$author', '$filteredTitle', '$filteredMessage')";
@@ -339,7 +353,7 @@ function flagPost() {
     mysqli_close($link);
 }
 function flagComment() {
-    $commentID = $_GET['deleteCommentID'];
+    $commentID = $_GET['flagCommentID'];
     $postID = $_GET['postID'];
     $link = dbConnect();
     $flagQuery = "UPDATE `comments` SET `flagged`='1' WHERE `comment_id`='$commentID' AND `post_id`='$postID'";

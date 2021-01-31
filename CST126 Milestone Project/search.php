@@ -11,6 +11,7 @@
 	<a href="search.php">Search</a><br>
 	<?php 
 	   include 'myfuncs.php';
+	   logout();
 	   adminControl();
 	?>
 </header>
@@ -29,7 +30,7 @@
         $sql = "SELECT * FROM blog WHERE blogtitle LIKE '%$search%' OR blogmessage LIKE '%$search%'";
         $result = $link->query($sql);
         
-        //make sure that 
+        //make sure that fields are not null or empty!
         if (is_null($search) || empty($search)) {
             alert("You need to enter something to search.");
             return;

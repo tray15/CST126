@@ -28,7 +28,7 @@ if ($count == 1 && $data['banned'] != 1) {
     saveUsername($data["username"]);
     include('loginResponse.php');
 } elseif ($count > 1) {
-    alert("There are multiple users registered.");
+    alert("There user is already registered.");
 } elseif ($count == 0) {
     $message = 'Login failed. Incorrect username or password.';
     alert($message);
