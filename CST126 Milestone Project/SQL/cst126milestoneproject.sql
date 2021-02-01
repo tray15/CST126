@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3307
--- Generation Time: Jan 24, 2021 at 03:56 PM
+-- Generation Time: Feb 01, 2021 at 12:19 AM
 -- Server version: 5.7.24
 -- PHP Version: 7.4.1
 
@@ -42,8 +42,7 @@ CREATE TABLE `blog` (
 --
 
 INSERT INTO `blog` (`post_id`, `author`, `blogtitle`, `blogmessage`, `flagged`, `votes`) VALUES
-(189, 'admin', 'new title', 'new message', 0, 1),
-(190, 'admin', 'Here is an example post of the blog.', 'This is a message that just has text in it to display to the blog. The controls will be populated under here.', 0, 0);
+(2, 'admin', 'Dr. Bob', 'Hello Dr. Bob this is a new post!', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -64,9 +63,9 @@ CREATE TABLE `comments` (
 --
 
 INSERT INTO `comments` (`comment_id`, `username`, `post_id`, `comment`, `flagged`) VALUES
-(9, 'admin', 189, 'This is me testing to see if my comment will update!', 0),
-(10, 'admin', 190, 'Comment on second post!', 0),
-(11, 'admin', 189, 'Another comment for the first post!', 0);
+(3, 'admin', 1, 'New comment to this post!', 0),
+(4, 'admin', 1, 'A second comment to the post!', 0),
+(5, 'admin', 2, 'Nice post there!', 0);
 
 -- --------------------------------------------------------
 
@@ -75,6 +74,7 @@ INSERT INTO `comments` (`comment_id`, `username`, `post_id`, `comment`, `flagged
 --
 
 CREATE TABLE `rating` (
+  `rating_id` int(11) NOT NULL,
   `user_id` int(255) NOT NULL,
   `post_id` int(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -83,11 +83,9 @@ CREATE TABLE `rating` (
 -- Dumping data for table `rating`
 --
 
-INSERT INTO `rating` (`user_id`, `post_id`) VALUES
-(18, 142),
-(18, 186),
-(18, 188),
-(18, 189);
+INSERT INTO `rating` (`rating_id`, `user_id`, `post_id`) VALUES
+(1, 23, 2),
+(2, 23, 1);
 
 -- --------------------------------------------------------
 
@@ -109,9 +107,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `password`, `role`, `banned`) VALUES
-(18, 'admin', 'test@test.com', 'admin', 'admin', 0),
-(19, 'banned', 'ban@ban.com', 'ban', 'standard', 0),
-(20, 'standard', 'standard@standard', 'standard', 'standard', 0);
+(21, 'tanner', 'newemail@email.com', 'pass', 'admin', 0),
+(23, 'admin', 'admin@thescaryadmin.com', 'pass', 'standard', 0);
 
 --
 -- Indexes for dumped tables
@@ -130,6 +127,12 @@ ALTER TABLE `comments`
   ADD PRIMARY KEY (`comment_id`);
 
 --
+-- Indexes for table `rating`
+--
+ALTER TABLE `rating`
+  ADD PRIMARY KEY (`rating_id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -143,19 +146,25 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `blog`
 --
 ALTER TABLE `blog`
-  MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=191;
+  MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `comment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `rating`
+--
+ALTER TABLE `rating`
+  MODIFY `rating_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

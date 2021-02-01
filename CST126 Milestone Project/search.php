@@ -4,11 +4,16 @@
 </head>
 <header>
 <h2>Welcome to the blog.</h2>
-	<a href="index.html">Home</a><br>
-	<a href="login.html">Login</a><br>
-	<a href="signUp.html">Register</a><br>
-	<a href="blog.php">Blog</a><br>
-	<a href="search.php">Search</a><br>
+<nav>
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="login.html">Login</a></li>
+        <li><a href="signUp.html">Register</a></li>
+        <li><a href="blog.php">Blog</a></li>
+        <li><a href="search.php">Search</a></li>
+    </ul>
+</nav>
+
 	<?php 
 	   include 'myfuncs.php';
 	   logout();

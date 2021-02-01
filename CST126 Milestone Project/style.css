@@ -1,127 +1,169 @@
-	head {
-		background-color: #222629;
-	}
-	body {
-		background-color: #222629;
-	}
-	form {
-		background-color: #474B4F;
-		color: white;
-		font-family: Arial;
-		text-align: left;
-		margin: 0 auto;
-	   	padding: 20px;
-	   	border-radius: 5px;
-	   	width: 80%;
-		display: table;
-	}
-	#Blog {
-		background-color: #474B4F;
-		color: white;
-		font-family: Arial;
-		text-align: left;
-		margin: 0 auto;
-	   	padding: 20px;
-	   	border-radius: 5px;
-	   	width: 30%;
-		display: table;
-	}
-	#Menus {
-		background-color: #474B4F;
-		color: white;
-		font-family: Arial;
-		text-align: left;
-		margin: 0 auto;
-	   	padding: 20px;
-	   	border-radius: 5px;
-	   	width: 25%;
-		display: table;
-	}
-	#Comments {
-		background-color: #474B4F;
-		color: white;
-		font-family: Arial;
-		text-align: left;
-		margin-left: 19.3%;
-	   	padding: 20px;
-	   	border-radius: 5px;
-	   	width: 70%;
-		display: table;
-	}
-	a {
-		color: #86C232;
-	}
-	h2 {
-		font-family: Arial;
-		color: white;
-	}
-	h3 {
-		font-family: Arial;
-		border: 2px solid #86C232;
-		background-color: #86C232;
-		text-align: left;
-		padding-left: 10px;
-		border-radius: 5px;
-	}
-	hr {
-		margin-top: 15px;
-		margin-bottom: 15px	;
-		width: 100%;
-		color: white;
-	}
-	input {
-		font-family: Arial;
-		border-radius: 5px;
-		width: 100%;
-	}
-	input[type=hidden] {
-		font-family: Arial;
-		border-radius: 0px;
-		width: 0px;
-	}
-	input[id=BlogTitle] {
-		width: 95%;
-	}
-	input[type=submit] {
-		background-color: #86C232;
-		color: white;
-		width: 100px;
-		height: 25px;
-		display: block;
-		float: center;
-	}
-	button {
-		background-color: #86C232;
-		color: white;
-		width: 150px;
-		height: 25px;
-		display: block;
-		float: center;
-	}
-	div {
-		background-color: #6B6E70;
-		padding-top: 5px;
-		padding-bottom: 5px;
-		color: white;
-		font-family: Arial;
-	}
-	tr, td, th {
-		font-family: Arial;
-		color: white;
-	}
-	table {
-		margin-left: auto;
- 		margin-right: auto;
- 		border-collapse: separate;
-	}
-	td {
-		padding-bottom: 15px;
-	}
-	textarea {
-	  max-height: 300px;
-	  min-height: 150px;
-	  max-width: 500px;
-	  min-width: 350px;
-	  display:inline-block;
-	  vertical-align: top;
-	}
+head {
+	background-color: #222629; 
+}
+body {
+	background-color: #222629;
+	font-family: Arial;
+	line-height: 1.5;
+	font-size: 12pt;
+}
+
+h2 {
+	text-align: center;
+	padding: 10px 0;
+}
+
+nav {
+	display: block;
+	text-align: center;
+	margin-bottom: 50px;
+}
+
+nav ul {
+	text-decoration: none;
+}
+
+nav ul li {
+	display: inline-block;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+form {
+	background-color: #474B4F;
+	color: white;
+	font-family: Arial;
+	text-align: left;
+	margin: 0 auto;
+	padding: 20px;
+	border-radius: 5px;
+	width: 80%;
+	max-width: 500px;
+}
+#Blog {
+	background-color: #474B4F;
+	color: white;
+	font-family: Arial;
+	text-align: left;
+	margin: 0 auto;
+	padding: 20px;
+	border-radius: 5px;
+	width: 30%;
+	display: table;
+}
+#Menus {
+	background-color: #474B4F;
+	color: white;
+	font-family: Arial;
+	text-align: left;
+	margin: 0 auto;
+	padding: 20px;
+	border-radius: 5px;
+	width: 80%;
+	max-width: 350px;
+	display: table;
+}
+#Comments {
+	background-color: #474B4F;
+	color: white;
+	font-family: Arial;
+	text-align: left;
+	margin-left: 19.3%;
+	padding: 20px;
+	border-radius: 5px;
+	width: 70%;
+	display: table;
+}
+a {
+	color: #86C232;
+}
+h2 {
+	font-family: Arial;
+	color: white;
+}
+h3 {
+	font-family: Arial;
+	border: 2px solid #86C232;
+	background-color: #86C232;
+	text-align: left;
+	padding-left: 10px;
+	border-radius: 5px;
+}
+hr {
+	margin-top: 15px;
+	margin-bottom: 15px	;
+	width: 100%;
+	color: white;
+}
+input {
+	font-family: Arial;
+	border-radius: 5px;
+	width: 100%;
+	padding: 7px;
+	max-width: 350px;
+	display: block;
+	margin: 0 auto;
+}
+label { 
+	display: block;
+	margin: 0 auto;
+	max-width: 350px;
+	width: 95%;
+}
+input[type=hidden] {
+	font-family: Arial;
+	border-radius: 0px;
+	width: 0px;
+}
+input[id=BlogTitle] {
+	width: 100%;
+	max-width: 100%;
+}
+input[type=submit] {
+	background-color: #86C232;
+	color: white;
+	width: 100px;
+	display: block;
+	float: center;
+}
+button {
+	background-color: #86C232;
+	color: white;
+	width: 150px;
+	height: 25px;
+	display: block;
+	float: center;
+}
+div {
+	background-color: #6B6E70;
+	padding-top: 30px;
+	padding-bottom: 30px;
+	color: white;
+	font-family: Arial;
+}
+tr, td, th {
+	font-family: Arial;
+	color: white;
+}
+table {
+	margin-left: auto;
+	margin-right: auto;
+	border-collapse: separate;
+}
+td {
+	padding-bottom: 15px;
+}
+th {
+	text-align: left;
+	padding-bottom: 10px;
+}
+textarea {
+	height: 250px;
+	width: 100%;
+	display: block;
+	margin: 0 auto;
+	vertical-align: top;
+}
+label.blogstuff {
+	max-width: 100%;
+}

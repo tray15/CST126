@@ -3,17 +3,21 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <header>
-	<h2>Welcome to the blog.</h2>
-	<a href="index.html">Home</a><br>
-	<a href="login.html">Login</a><br>
-	<a href="signUp.html">Register</a><br>
-	<a href="blog.php">Blog</a><br>
-	<a href="search.php">Search</a><br>
+    <h2>Welcome to the blog.</h2>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li><a href="signUp.html">Register</a></li>
+            <li><a href="blog.php">Blog</a></li>
+            <li><a href="search.php">Search</a></li>
 	<?php 
 	   include 'myfuncs.php';
 	   logout();
 	   adminControl();
 	?>
+	    </ul>
+    </nav>
 </header>
 <body>
     <?php
@@ -148,9 +152,9 @@
     <div>
         <form id ="Blog" action="blog.php<?php if ($editID != 0) echo '?editID='.$editID; ?>" method="POST">
             <h3>Add post</h3><hr>
-            <label for="BlogTitle">Title:<br></label>
+            <label for="BlogTitle" class="blogstuff">Title:<br></label>
             <input type="text" id="BlogTitle" name="BlogTitle" value="<?php if ($titleData != null) { echo implode('',$titleData); } ?>"><br><br>
-            <label for=BlogMessage>Message:<br></label>
+            <label for="BlogMessage" class="blogstuff">Message:<br></label>
             <textarea id="BlogMessage" name="BlogMessage"><?php if ($messageData != null) { echo implode('',$messageData); } ?></textarea><br><br>
             <input type="submit" value="Submit"><br>
         </form>

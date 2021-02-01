@@ -28,7 +28,7 @@ function getUserName() {
     return $_SESSION["username"];
 }
 function logout() {
-    echo '<a href="login.html?logout">Logout</a>';
+    echo '<li><a href="login.html?logout">Logout</a></li>';
     
     if (isset($_GET['logout'])) {
         session_start();
